@@ -20,11 +20,7 @@ pipeline {
                 sshagent(credentials: ['app-ssh-key']) {
                     sh '''
 
-                        sh '''
-ssh ${REMOTE_USER}@${APP_SERVER_IP} "mkdir -p ${REMOTE_PATH}"
-scp -r . ${REMOTE_USER}@${APP_SERVER_IP}:${REMOTE_PATH}
-ssh ${REMOTE_USER}@${APP_SERVER_IP} "cd ${REMOTE_PATH} && npm install && pm2 restart simple-app || pm2 start app.js"
-'''
+                       
                         // set -e  # Stop on any error
 
                         // echo "=== Creating remote directory ==="
