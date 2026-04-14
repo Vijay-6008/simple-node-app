@@ -21,7 +21,7 @@ pipeline {
                     sh '''
 
                        
-                        set -e  # Stop on any error
+                        set -e  
 
                         echo "=== Creating remote directory ==="
                         ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${REMOTE_USER}@${APP_SERVER_IP} "mkdir -p ${REMOTE_PATH}"
