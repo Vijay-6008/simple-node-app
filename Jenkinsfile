@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Deploy to App Server') {
             steps {
-                sshagent([env.SSH_CREDENTIAL]) {
+                sshagent(['ubuntu']) { //([env.SSH_CREDENTIAL])
                     sh '''
                         ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${APP_SERVER_IP} "mkdir -p ${REMOTE_PATH}"
                         scp -o StrictHostKeyChecking=no -r * ${REMOTE_USER}@${APP_SERVER_IP}:${REMOTE_PATH}/
