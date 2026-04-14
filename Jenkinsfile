@@ -21,22 +21,22 @@ pipeline {
                     sh '''
 
                        
-                        // set -e  # Stop on any error
+                        set -e  # Stop on any error
 
-                        // echo "=== Creating remote directory ==="
-                        // ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${REMOTE_USER}@${APP_SERVER_IP} "mkdir -p ${REMOTE_PATH}"
+                        echo "=== Creating remote directory ==="
+                        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${REMOTE_USER}@${APP_SERVER_IP} "mkdir -p ${REMOTE_PATH}"
 
-                        // echo "=== Copying files ==="
-                        // scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r . ${REMOTE_USER}@${APP_SERVER_IP}:${REMOTE_PATH}/
+                        echo "=== Copying files ==="
+                        scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r . ${REMOTE_USER}@${APP_SERVER_IP}:${REMOTE_PATH}/
 
-                        // echo "=== Installing dependencies and restarting app ==="
-                        // ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${REMOTE_USER}@${APP_SERVER_IP} "
-                        //     cd ${REMOTE_PATH} &&
-                        //     npm install &&
-                        //     pm2 restart simple-app || pm2 start app.js --name simple-app
-                        // "
+                        echo "=== Installing dependencies and restarting app ==="
+                        ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ${REMOTE_USER}@${APP_SERVER_IP} "
+                            cd ${REMOTE_PATH} &&
+                            npm install &&
+                            pm2 restart simple-app || pm2 start app.js --name simple-app
+                        "
 
-                        // echo "=== Deployment completed successfully! ==="
+                        echo "=== Deployment completed successfully! ==="
                     '''
                 }
             }
