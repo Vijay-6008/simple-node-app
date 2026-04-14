@@ -13,24 +13,29 @@ pipeline {
             }
         }
 
-        stage('Deploy to App Server') {
+            stage('Deploy to App Server') {
     steps {
-        sshagent(credentials: ['app-ssh-key']) {   // your credential ID
-            sh '''
-                ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${APP_SERVER_IP} "mkdir -p ${REMOTE_PATH}"
-                
-                scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r * ubuntu@${APP_SERVER_IP}:${REMOTE_PATH}/
-                
-                ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@${APP_SERVER_IP} "
-                    cd ${REMOTE_PATH} &&
-                    npm install &&
-                    pm2 start app.js --name simple-app || pm2 restart simple-app
+        sshagent(credentials: ['app-ssh-key']) {
+            sh """
+                set -e  # stop on any error
+
+                echo "Deploying to \${APP_SERVER_IP}..."
+
+                ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@\${APP_SERVER_IP} "mkdir -p \${REMOTE_PATH}"
+
+                scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r . ubuntu@\${APP_SERVER_IP}:\${REMOTE_PATH}/
+
+                ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@\${APP_SERVER_IP} "
+                    cd \${REMOTE_PATH} &&
+                    npm install --production &&
+                    pm2 restart simple-app --update-env || pm2 start app.js --name simple-app
                 "
-            '''
+
+                echo "Deployment completed successfully!"
+            """
         }
     }
 }
-
 
 
         
