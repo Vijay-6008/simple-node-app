@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/YOUR-USERNAME/simple-node-app.git'
+                git branch: 'main', url: 'https://github.com/Vijay-6008/simple-node-app.git'
             }
         }
         stage('Deploy to App Server') {
